@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Johnny Be Happy — Stand Tall</title>
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800;900&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --blue:#5BC0EB;       /* brand blue */
+    --orange:#FF6600;     /* accent */
+    --navy:#1F2A44;       /* dark */
+    --ink:#2f2f2f;        /* body text */
+    --paper:#ffffff;      /* white */
+    --fog:#f7f9fb;        /* light section bg */
+    --radius:18px;
+    --shadow:0 12px 30px rgba(0,0,0,.08);
+  }
+
+  *{ box-sizing: border-box; }
+  html, body{ margin:0; padding:0; }
+  body{
+    font-family: "Nunito", system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: var(--ink);
+    background: var(--paper);
+    line-height: 1.6;
+  }
+
+  /* Accessibility helper */
+  .sr-only{
+    position:absolute!important; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
+  }
+
+  /* === Global Typography (site-wide) === */
+  h1, h2, h3{
+    font-family: inherit;
+    font-weight: 900;
+    color: var(--navy);
+    line-height: 1.1;
+    margin: 0 0 12px;
+  }
+  /* Headline scale — h1 & h2 share the same visual punch */
+  h1, h2{ font-size: clamp(2rem, 5vw, 3.25rem); }
+  /* Subheads (cards, small blocks) */
+  h3{ font-size: clamp(1.25rem, 2.8vw, 1.6rem); }
+
+  /* Body copy (paragraphs + list items) — matches hero paragraph */
+  p, li{
+    font-size: clamp(1.05rem, 2.2vw, 1.25rem);
+    line-height: 1.7;
+    color: #3a3a3a;
+    margin: 0 0 14px;
+  }
+
+  /* ========= Top Navigation ========= */
+
+/* Nav stays fixed at very top */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 1000; /* higher layer than banner */
+background: #fff; /* or var(--fog), var(--blue), whatever matches your design */
+
+
+
+
+  }
+  .nav-inner{
+    max-width: 1200px; margin: auto; padding: 20px 20px;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .brand{ display:flex; align-items:center; gap:12px; text-decoration:none; }
+  .brand .nav-logo{ height:84px; width:auto; display:block; transition: height .18s ease; }
+  .menu{ display:flex; gap:22px; align-items:center; }
+  .menu a{
+    text-decoration:none; color: var(--navy); font-weight:700;
+    padding:8px 0; transition: opacity .2s;
+  }
+  .menu a:hover{ opacity:.8; }
+  .cta-nav{
+    padding:10px 16px; border-radius:999px; font-weight:800; text-decoration:none;
+    background: var(--blue); color:#fff; box-shadow: var(--shadow);
+  }
+  .cta-nav:hover{ filter: brightness(.96); }
+
+  .nav.is-small .nav-inner{ padding:10px 20px; }
+  .nav.is-small .brand .nav-logo{ height:52px; }
+
+  @media (max-width:960px){
+    .brand .nav-logo{ height:56px; }
+    .nav.is-small .brand .nav-logo{ height:48px; }
+  }
+
+  /* ========= Buttons ========= */
+  .btn{
+    display:inline-block; text-decoration:none; font-weight:900;
+    padding:14px 22px; border-radius:999px; box-shadow: var(--shadow);
+    transition: transform .03s ease, filter .15s ease;
+  }
+  .btn:active{ transform: translateY(1px); }
+  .btn-primary{ background: var(--orange); color:#fff; }
+  .btn-primary:hover{ filter: brightness(.96); }
+  .btn-ghost{ background:#fff; color: var(--navy); border:2px solid rgba(0,0,0,.05); }
+  .btn-blue{ background: var(--blue); color:#fff; }
+  .btn-blue:hover{ filter: brightness(.96); }
+
+  /* ========= HERO ========= */
+  .hero{ position:relative; overflow:hidden; background: linear-gradient(180deg, #ffffff 0%, #f3fbff 100%); }
+  .hero-inner{
+    max-width:1200px; margin:auto;
+    padding: clamp(28px,5vw,60px) 20px;
+    display:grid; grid-template-columns: 1.1fr 1fr; gap:40px; align-items:center;
+  }
+  .hero-copy h1{ margin:0 0 14px; }
+  .hero-copy p{ margin:0 0 22px; max-width:54ch; }
+  .badge{
+    display:inline-flex; align-items:center; gap:8px;
+    background: rgba(91,192,235,.12); color: var(--blue);
+    padding:8px 14px; border-radius:999px; font-weight:800; margin-bottom:12px;
+  }
+  .hero-actions{ display:flex; gap:12px; flex-wrap:wrap; }
+  .hero-art{ position:relative; min-height:280px; }
+  .hero-art .card{
+    background:#fff; border-radius: var(--radius); box-shadow: var(--shadow);
+    overflow:hidden; position:relative;
+  }
+  .hero-img{ width:100%; height:100%; object-fit:cover; display:block; aspect-ratio: 4/3; }
+  .bubbles{
+    position:absolute; inset:auto -60px -60px auto; width:320px; height:320px; opacity:.15; pointer-events:none;
+    background:
+      radial-gradient(circle at 30% 30%, var(--blue) 0 24%, #0000 25%),
+      radial-gradient(circle at 70% 40%, var(--blue) 0 18%, #0000 19%),
+      radial-gradient(circle at 50% 70%, var(--blue) 0 16%, #0000 17%),
+      radial-gradient(circle at 85% 75%, var(--blue) 0 10%, #0000 11%);
+    filter:saturate(140%);
+  }
+  @media (max-width:960px){
+    .hero-inner{ grid-template-columns:1fr; gap:20px; }
+    .hero-copy{ text-align:center; }
+    .hero-copy p{ margin-inline:auto; }
+    .hero-actions{ justify-content:center; }
+  }
+
+  /* ========= Impact stats ========= */
+  .impact{
+    background: linear-gradient(180deg, #ffffff 0%, #f6fbff 100%);
+    padding: 36px 20px 60px;
+  }
+  .impact-wrap{ max-width:1100px; margin:0 auto; text-align:center; }
+  .impact-card{
+    background:#fff; border-radius:18px; box-shadow: 0 18px 40px rgba(0,0,0,.08);
+    padding: clamp(18px, 3vw, 28px);
+    display:grid; grid-template-columns: repeat(3, 1fr);
+    gap: clamp(12px, 2.5vw, 22px); align-items:stretch;
+  }
+  .stat{
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    padding: clamp(10px, 2vw, 14px);
+    border-radius:14px; border:1px solid rgba(0,0,0,.04);
+    background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+  }
+  .stat-icon{
+    color: var(--blue);
+    display:flex; align-items:center; justify-content:center;
+    width:56px; height:56px; border-radius:50%;
+    background: rgba(91,192,235,.12);
+    margin-bottom:10px;
+  }
+  .stat-number{
+    font-weight:900;
+    font-size: clamp(1.8rem, 4.2vw, 2.6rem);
+    color: var(--navy);
+    letter-spacing: .5px;
+  }
+  .stat-label{ margin-top:6px; font-weight:800; color:#4a4a4a; }
+  .impact-note{ margin:12px auto 0; color:#5a6a78; font-weight:700; font-size:.95rem; }
+  .split-note{ color: var(--orange); }
+
+  @media (max-width:900px){
+    .impact-card{ grid-template-columns:1fr; }
+  }
+
+  /* ========= Generic Sections ========= */
+  .section{ background: var(--fog); padding: 50px 20px; }
+  .section-inner{ max-width:1100px; margin:auto; text-align:center; }
+  .section-cta{ margin-top:14px; }
+  .section-cta .btn{ padding:14px 26px; }
+
+  /* ========= Explainer (Why Pressure Washing?) ========= */
+  .explainer{
+    background:#fff;
+    padding: clamp(28px,5vw,60px) 20px;
+    border-top:1px solid rgba(0,0,0,.06);
+    border-bottom:1px solid rgba(0,0,0,.06);
+  }
+  .explainer-wrap{
+    max-width:1200px; margin:auto;
+    display:grid; grid-template-columns:72px 1fr;
+    gap:22px; align-items:center;
+  }
+  .explainer-icon{
+    color: var(--blue);
+    width:56px; height:56px; border-radius:50%;
+    background: rgba(91,192,235,.12);
+    display:flex; align-items:center; justify-content:center;
+  }
+  /* Center variant (when you omit the icon) */
+  .explainer .explainer-wrap{ grid-template-columns:1fr; justify-items:center; }
+  .explainer .explainer-text{ text-align:center; max-width:900px; margin:0 auto; }
+  .explainer .explainer-points{ display:inline-block; text-align:left; margin:10px auto 0; }
+
+  @media (max-width:900px){
+    .explainer-wrap{ grid-template-columns:1fr; text-align:center; }
+    .explainer-icon{ display:none; }
+    .explainer-points{ text-align:left; margin-inline:auto; max-width:54ch; }
+  }
+
+  /* ========= Steps (I clean / I share / We support) ========= */
+  .steps{
+    margin: 18px auto 10px;
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: clamp(14px, 3vw, 24px); max-width:1100px;
+  }
+  .step{
+    background:#fff; border:1px solid rgba(0,0,0,.06);
+    border-radius:16px; padding: clamp(14px, 2.2vw, 20px);
+    box-shadow: 0 10px 24px rgba(0,0,0,.06); text-align:center;
+  }
+  .step-num{
+    width:46px; height:46px; line-height:46px; margin:0 auto 10px;
+    border-radius:50%;
+    background: rgba(91,192,235,.15); color: var(--blue);
+    font-weight:900; font-size:1.15rem;
+  }
+  .step h3{ margin:2px 0 6px; }
+  .step p{ margin:0; font-weight:700; }
+
+  @media (max-width:900px){
+    .steps{ grid-template-columns:1fr; }
+  }
+
+  /* ========= 50/50 Split Bar ========= */
+  .split50{
+    margin: 16px auto 0;
+    display:grid; grid-template-columns: 1fr 1fr;
+    border-radius:14px; overflow:hidden;
+    box-shadow: 0 10px 24px rgba(0,0,0,.06);
+    max-width:900px; border:1px solid rgba(0,0,0,.06);
+  }
+  .split50 > div{ padding:12px 16px; font-weight:900; text-align:center; }
+  .split-left{ background: rgba(91,192,235,.14); color: var(--navy); }
+  .split-right{ background: var(--blue); color:#fff; }
+
+  /* ========= Support Section (bank transfer / card) ========= */
+  .support-grid{
+    margin: 26px auto 0;
+    max-width: 1100px;
+    display: grid; grid-template-columns: 1.1fr 1fr;
+    gap: clamp(16px, 3vw, 26px);
+  }
+  @media (max-width:900px){
+    .support-grid{ grid-template-columns:1fr; }
+  }
+  .support-card{
+    background:#fff; border:1px solid rgba(0,0,0,.06);
+    border-radius:16px; box-shadow: 0 10px 24px rgba(0,0,0,.06);
+    padding: clamp(16px, 2.2vw, 22px); text-align:left;
+  }
+
+  .support-label{ font-weight:800; display:block; margin:8px 0 6px; }
+  .amount-row{
+    display:flex; align-items:center; gap:8px;
+    background:#f7f9fb; border:1px solid rgba(0,0,0,.06);
+    padding:10px 12px; border-radius:12px; width:260px;
+  }
+  .currency{ font-weight:900; color:#334155; }
+  #support-amount{
+    border:0; outline:0; background:transparent; width:100%;
+    font:inherit; font-weight:900; color:#111827;
+  }
+
+  .method-wrap{ display:flex; gap:18px; margin:12px 0 10px; flex-wrap:wrap; }
+  .method{ display:flex; gap:8px; align-items:center; font-weight:800; color:#334155; }
+
+  .bank-box, .card-box{
+    margin-top:10px; border:1px dashed rgba(0,0,0,.15);
+    border-radius:12px; padding:12px; background:#fbfdff;
+  }
+  .bank-note{ margin:0 0 8px; color:#475569; font-weight:700; }
+  .tiny{ margin:8px 0 0; font-size:.9rem; color:#64748b; font-weight:700; }
+
+  .bank-line{
+    display:grid; grid-template-columns:130px 1fr auto;
+    gap:10px; align-items:center;
+    padding:6px 0; border-bottom:1px solid rgba(0,0,0,.06);
+  }
+  .bank-line:last-child{ border-bottom:0; }
+  .bank-key{ font-weight:900; color:#334155; }
+  .bank-val{ font-weight:800; color:#0f172a; }
+  .copy{
+    border:1px solid rgba(0,0,0,.1); background:#fff; border-radius:999px;
+    padding:6px 10px; font-weight:800; cursor:pointer;
+  }
+  .copy:active{ transform: translateY(1px); }
+
+  .split-note2{ margin-top:12px; font-weight:800; color:#475569; }
+
+  .support-list{ margin:0; padding-left:18px; font-weight:800; }
+  .support-list li{ margin:6px 0; }
+
+  /* ========= Footer ========= */
+  .site-footer{ background: var(--blue); color:#fff; margin-top:0; }
+  .footer-wrap{
+    max-width:1200px; margin:auto; padding:36px 20px;
+    display:grid; grid-template-columns:1.2fr 1fr 1fr; gap:28px;
+  }
+  .footer-heading{ font-weight:900; letter-spacing:.2px; margin:0 0 10px; font-size:1.05rem; }
+  .footer-nav, .footer-help, .footer-social{ list-style:none; padding:0; margin:0; }
+  .footer-nav a, .footer-help a{
+    color:#fff; text-decoration:none; display:inline-block; padding:6px 0; font-weight:800; opacity:.95;
+  }
+  .footer-nav a:hover, .footer-help a:hover{ opacity:1; text-decoration:underline; }
+  .footer-note{ opacity:.9; font-weight:700; margin-top:8px; }
+
+  .footer-cta{
+    display:inline-block; text-decoration:none; font-weight:900; margin-top:10px;
+    padding:10px 16px; border-radius:999px; color: var(--blue);
+    background:#fff; box-shadow:0 8px 20px rgba(0,0,0,.08);
+  }
+  .footer-cta:hover{ filter: brightness(.96); }
+
+  .socials{ display:flex; gap:12px; margin-top:8px; }
+  .socials a{
+    width:38px; height:38px; border-radius:50%; display:inline-flex;
+    align-items:center; justify-content:center; background: rgba(255,255,255,.15);
+    color:#fff; text-decoration:none;
+  }
+  .socials a:hover{ background: rgba(255,255,255,.25); }
+
+  .footer-bottom{ background:#229AD6; padding:18px 20px 26px; }
+  .footer-logos{
+    max-width:1200px; margin:0 auto 8px; display:grid; gap:16px;
+    grid-template-columns: repeat(4, 1fr); align-items:center; justify-items:center;
+  }
+  .footer-logos img{
+    height:42px; width:auto; filter:brightness(0) invert(1) opacity(.9);
+    transition: opacity .2s, transform .2s;
+  }
+  .footer-logos img:hover{ opacity:1; transform: translateY(-1px); }
+  .footer-legal{
+    max-width:1200px; margin:0 auto; text-align:center; color:#eaf6ff; font-weight:700; font-size:.9rem; opacity:.95;
+  }
+  .footer-legal a{ color:#fff; text-decoration:underline; }
+  .footer-prelogos{
+    max-width:1200px; margin: 0 auto 10px; text-align:center;
+    color:#eaf6ff; font-weight:900; letter-spacing:.2px;
+  }
+
+  @media (max-width:960px){
+    .footer-wrap{ grid-template-columns:1fr; gap:20px; }
+    .footer-logos{ grid-template-columns: repeat(2, 1fr); }
+  }
+
+.support-grid {
+  grid-template-columns: 1fr !important;
+}
+
+  .video-grid{
+  display:grid;
+  grid-template-columns: repeat(3, 1fr); /* always 3 across */
+  gap: clamp(12px, 2vw, 20px);
+  margin-top: 12px;
+  max-width: 960px;  /* limit overall width so videos don’t blow up */
+  margin-left: auto;
+  margin-right: auto;
+}
+.video{
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000; 
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 6px 16px rgba(0,0,0,.06);
+}
+.video iframe{
+  position:absolute; inset:0;
+  width:100%; height:100%;
+}
+
+.section.mission {
+  padding: 120px 20px;   /* bigger top/bottom spacing */
+}
+.method-wrap {
+  display: flex;
+  gap: 12px;
+  margin: 16px 0;
+  flex-wrap: wrap;
+  justify-content: flex-start; /* align buttons left */
+}
+
+.method {
+  border: none;
+  border-radius: 8px;
+  padding: 12px 20px;
+  text-align: center;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.25s ease;
+  background: #f9f9f9;
+  color: #333;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  flex: 0 0 auto; /* prevents stretching */
+}
+
+/* Hide radio */
+.method input[type="radio"] {
+  display: none;
+}
+
+/* Selected */
+.method input[type="radio"]:checked + span {
+  display: inline-block;
+  background: var(--blue);
+  color: #fff;
+  border-radius: 6px;
+  padding: 10px 18px;
+  font-weight: 600;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+}
+
+/* Hover */
+.method:hover {
+  background: #eef6fb;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+}
+
+h3 {
+  font-size: 2.5rem;   /* bigger than default */
+  font-weight: 800;    /* makes it stand out */
+  text-align: center;  /* centers it */
+  margin: 20px 0;      /* adds breathing space */
+}
+
+h4 {
+  font-size: 2rem;   /* bigger than default */
+  font-weight: 800;    /* makes it stand out */
+  text-align: center;  /* centers it */
+  margin: 20px 0;      /* adds breathing space */
+}
+
+.steps h4 {
+  color: var(--blue);
+  margin-top: 8px;
+  font-size: 2rem;
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 equal columns */
+  gap: 20px; /* space between items */
+  margin-top: 22px;
+}
+
+.step {
+  background: #fff;
+  padding: 16px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+@media (max-width: 900px) {
+  .steps {
+    grid-template-columns: 1fr 1fr; /* 2 across on tablets */
+  }
+}
+
+@media (max-width: 600px) {
+  .steps {
+    grid-template-columns: 1fr; /* 1 per row on phones */
+  }
+}
+html {
+  scroll-behavior: smooth; /* optional, for smooth scrolling */
+  scroll-padding-top: 100px; /* adjust to your nav height */
+}
+.nav a.active {
+  color: var(--blue);
+  font-weight: 600;
+  border-bottom: 3px solid var(--blue);
+  padding-bottom: 4px;
+}
+.why-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr; /* text wider than logo */
+  gap: 40px;
+  align-items: center;
+}
+
+.why-logo img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+@media (max-width: 800px) {
+  .why-grid {
+    grid-template-columns: 1fr; /* stack on small screens */
+    text-align: center;
+  }
+
+  .why-logo {
+    margin-top: 20px;
+  }
+}
+.footer-note {
+  color: #fff;       /* white text */
+  font-weight: 700;  /* bold */
+  margin-top: 12px;
+}
+.site-footer .footer-heading {
+  font-size: 1.6rem;   /* bigger than default */
+  font-weight: 800;    /* bold */
+  color: #fff;         /* white, assuming dark footer background */
+  text-align: left;    /* left aligned */
+  margin-bottom: 12px; /* spacing below heading */
+}
+
+.about-photos {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+  justify-items: center;
+  margin-top: 30px;
+}
+
+.photo-card img {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.photo-card p {
+  margin-top: 8px;
+  font-weight: 600;
+  text-align: center;
+}
+
+@media (max-width: 900px) {
+  .about-photos {
+    grid-template-columns: repeat(2, 1fr); /* stack nicely on smaller screens */
+  }
+}
+
+.about-heading {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.support-subtext {
+  font-size: 1.0rem;   /* smaller than global body */
+  color: #666;         /* lighter gray */
+  max-width: 70ch;
+  margin: 0 auto;
+}
+/* Banner sticks directly under nav */
+.thankyou-banner {
+  position: sticky;
+  top: 70px;   /* match your nav height (60–80px usually) */
+  z-index: 900;
+  text-align: center;
+  background: var(--blue);
+  padding: 14px 10px;
+}
+
+.thankyou-banner p {
+  color: #fff;
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.thankyou-banner .thankyou-strong {
+  font-weight: 700;
+  color: #fff;
+  margin-right: 8px;
+}
+
+.thankyou-banner .btn {
+  font-size: 1rem;
+  background: var(--orange);
+  color: #fff;
+  padding: 8px 18px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 0.2s ease;
+  margin-left: 8px;
+}
+
+.thankyou-banner .btn:hover {
+  background: #e26700;
+}
+
+/* Make sure nav sits on top */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 1000; /* higher than banner */
+}
+
+/* Banner sticks right under nav */
+.thankyou-banner {
+  position: sticky;
+  top: 120px;   /* adjust to your actual nav height */
+  z-index: 900; /* below nav */
+  text-align: center;
+  background: var(--blue);
+  padding: 14px 10px;
+}
+
+.thankyou-banner p {
+  color: #fff;
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+
+
+</style>
+</head>
+<body>
+<body>
+  <div id="home"></div>
+  <!-- rest of your site -->
+
+<!-- Top Nav -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="#home">
+      <img src="jbhlogotext.png" alt="Johnny Be Happy logo" class="nav-logo">
+      <span class="sr-only">Johnny Be Happy</span>
+    </a>
+    <div class="menu">
+      <a href="#mission">My Mission</a>
+
+      <a href="#why">Why Pressure Washing</a>
+<a href="#support">How you can help</a>
+     
+ <a href="#standtall">Stand Tall Fund</a>
+ <a href="#videos">Videos</a>
+ <a href="#about">About Me</a>
+
+     
+      
+    </div>
+  </div>
+</nav>
+<!-- Direct Callout for Clients -->
+<div class="thankyou-banner">
+  <p>
+    <span class="thankyou-strong">Just had your driveway cleaned?</span>
+    <a href="#support" class="btn btn-primary">Support Johnny Be Happy</a>
+  </p>
+</div>
+
+<!-- HERO -->
+
+<header class="hero" id="home">
+  <div class="hero-inner">
+    <div class="hero-copy">
+    
+      <h1>We are helping men <span style="color:var(--blue)">stand tall</span>.</h1>
+      <p>
+        Born from my own mental health journey, Johnny Be Happy exists to support the wellbeing of men.  
+        Giving back, creating hope, and turning small acts into bigger change.
+      </p>
+      <div class="hero-actions">
+        <a href="#mission" class="btn btn-primary">About our mission</a>
+        <a href="#support" target="_blank" class="btn btn-blue">How you can help</a>
+      </div>
+    </div>
+
+    <div class="hero-art">
+      <div class="card">
+        <!-- Replace with your dad+sons transparent image or any hero photo -->
+        <img class="hero-img" src="dad.png" alt="Johnny Be Happy—family and community">
+      </div>
+      <div class="bubbles" aria-hidden="true"></div>
+    </div>
+  </div>
+</header>
+
+
+<!-- IMPACT STATS -->
+<section class="impact" aria-labelledby="impact-title">
+  <div class="impact-wrap">
+    <h2 id="impact-title" class="sr-only">Impact So Far</h2>
+
+    <div class="impact-card" role="group" aria-label="Johnny Be Happy impact to date">
+      <!-- Stat 1 -->
+      <article class="stat" aria-label="Driveways cleaned">
+        <div class="stat-icon" aria-hidden="true">
+          <!-- hose/clean icon -->
+          <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M4 16c0-2.5 2-4.5 4.5-4.5H15m-2-3h3a4 4 0 0 1 4 4v7" />
+            <path d="M3 20h10a2 2 0 0 0 2-2v-2H8a5 5 0 0 0-5 5Z" />
+          </svg>
+        </div>
+        <div class="stat-number" data-target="5" data-format="int">0</div>
+        <p class="stat-label">Driveways cleaned</p>
+      </article>
+
+      <!-- Stat 2 -->
+      <article class="stat" aria-label="Dollars funded so far">
+        <div class="stat-icon" aria-hidden="true">
+          <!-- heart/coin icon -->
+          <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M12 21s-7-4.35-7-10a4 4 0 0 1 7-2 4 4 0 0 1 7 2c0 5.65-7 10-7 10Z"/>
+          </svg>
+        </div>
+        <div class="stat-number" data-target="125" data-format="currency">0</div>
+        <p class="stat-label">Funded so far (AUD)</p>
+      </article>
+
+      <!-- Stat 3 -->
+      <article class="stat" aria-label="Young men helped">
+        <div class="stat-icon" aria-hidden="true">
+          <!-- medal/star icon -->
+          <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="m12 2 2.6 5.3 5.9.9-4.2 4.1 1 5.8L12 15.9 6.7 18l1-5.8L3.5 8.2l5.9-.9L12 2Z"/>
+          </svg>
+        </div>
+        <div class="stat-number" data-target="6" data-format="int">0</div>
+        <p class="stat-label">YouTube Subscribers</p>
+      </article>
+    </div>
+
+    <p class="impact-note">Updated <time id="impact-date">Sep 2025</time> ·  </p><p>
+      <span class="split-note">50% of Johnny Be Happy profits go to the Stand Tall Fund.</span>
+    </p>
+  </div>
+</section>
+
+<!-- ===================== MISSION ===================== -->
+
+
+
+   
+
+
+
+
+<section class="section mission" id="mission">
+  <div class="section-inner">
+    <div class="explainer-text">
+      <h2>My Mission</h2>
+      <p>
+     Born from my own mental health journey, Johnny Be Happy exists to support the wellbeing of men in our community. Giving back, creating hope, and turning small acts into bigger change. Through every driveway cleaned and every story shared, we’re building awareness and raising support for men to find strength, purpose, and connection.
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<!-- EXPLAINER: What I do -->
+
+<section class="section" id="why">
+  <div class="section-inner why-grid">
+    <!-- Left: text -->
+    <div class="why-text">
+      <h2>Why Pressure Washing?</h2>
+      <p>
+        I love pressure washing because it’s my reset — steady lines, simple steps, and visible, immediate results. After more than 20 years running a small business with all the stresses of staff, accounts, sales, and marketing, I’ve found this simple act brings me calm in a noisy and unpredictable world.
+      </p>
+      <p>
+        By sharing each clean and the stories around them on YouTube, I’m working toward monetization so I can raise vital funds for the Stand Tall Foundation. Too many men today are struggling to find purpose — myself included. Johnny Be Happy is about turning something simple, like cleaning a driveway, into a way of creating change, raising awareness, and bringing men’s programs into our community to support hardworking, everyday men.
+      </p>
+      <p>
+        I hope to create opportunities for other men to get involved — contributing through pressure washing and, in time, expanding into other community services that make a difference.
+      </p>
+    </div>
+
+    <!-- Right: logo -->
+    <div class="why-logo">
+      <img src="logo.png" alt="Johnny Be Happy Logo" />
+    </div>
+  </div>
+</section>
+
+
+  
+</section>
+
+
+
+
+<!-- ===================== HOW YOU CAN HELP ===================== -->
+<section class="section" id="support">
+  <div class="section-inner" style="max-width: 750px; margin: 0 auto; text-align: center;">
+
+    <h2>How you can help</h2>
+
+    <p>
+      <span style="color:var(--blue); font-weight:700;">If I’ve just cleaned for you,</span> 
+      thank you for letting me be part of your space. You can support what I’m doing in two simple ways:
+    </p>
+
+    <p>
+      👉 Follow along by watching, liking & subscribing on  
+      <a href="https://www.youtube.com/@JohnnyBeHappyPW" target="_blank" style="color:var(--blue); font-weight:600;">
+        YouTube
+      </a>
+    </p>
+
+    <p>
+      👉 I work on a <strong>pay-what-you-want</strong> basis.  
+      There’s no set fee — it’s completely up to you.  
+      Every contribution helps me cover fuel, equipment and time, while also helping me grow the <em>Stand Tall Fund</em>.   
+    </p>
+
+
+
+
+    <p class="support-subtext">
+    
+     <i>Pricing Guide:
+As a general guide, most professional pressure washing services charge between $2.00 and $5.00 per square metre.
+Simple, open driveways are typically at the lower end of this range, while areas that are harder to access—such as patios, walls, or brickwork that require moving items or extra care—tend to be at the higher end. </i>  
+  
+    </p>
+
+  </div>
+</section>
+
+
+
+
+
+
+    <!-- Support card -->
+    <div class="support-grid">
+      <!-- Left: contribution -->
+      <div class="support-card" aria-labelledby="support-amount-title">
+        <h3 id="support-amount-title">Make a contribution (optional)</h3>
+
+        <label class="support-label" for="support-amount">Amount (AUD)</label>
+        <div class="amount-row">
+          <span class="currency">$</span>
+          <input id="support-amount" type="number" min="1" step="1" value="50" inputmode="decimal" />
+        </div>
+
+        <div class="method-wrap" role="group" aria-label="Support method">
+  <label class="method">
+    <input type="radio" name="method" value="bank" checked />
+    <span>Bank transfer (no fees)</span>
+  </label>
+  <label class="method">
+    <input type="radio" name="method" value="card" />
+    <span>Card (Stripe) <small>fees apply</small></span>
+  </label>
+</div>
+
+
+        <!-- Bank transfer details -->
+        <div id="bank-box" class="bank-box">
+          <p class="bank-note">Use these details in your banking app. Add the reference so we can match it.</p>
+
+          <div class="bank-line">
+            <span class="bank-key">Account name</span>
+            <span class="bank-val" data-copy="Account name">Johnny Be Happy</span>
+            <button class="copy" data-copy-target="Account name" aria-label="Copy account name">Copy</button>
+          </div>
+          <div class="bank-line">
+            <span class="bank-key">BSB</span>
+            <span class="bank-val" data-copy="BSB">082-842</span>
+            <button class="copy" data-copy-target="BSB" aria-label="Copy BSB">Copy</button>
+          </div>
+          <div class="bank-line">
+            <span class="bank-key">Account #</span>
+            <span class="bank-val" data-copy="Account">504964479</span>
+            <button class="copy" data-copy-target="Account" aria-label="Copy Account">Copy</button>
+          </div>
+          <div class="bank-line">
+            <span class="bank-key">PayID (optional)</span>
+            <span class="bank-val" data-copy="PayID">happy@johnnybehappy.com.au</span>
+            <button class="copy" data-copy-target="PayID" aria-label="Copy PayID">Copy</button>
+          </div>
+          <div class="bank-line">
+            <span class="bank-key">Reference</span>
+            <span class="bank-val" id="ref-val" data-copy="Reference">JBH-<span id="ref-code">0000</span></span>
+            <button class="copy" data-copy-target="Reference" aria-label="Copy reference">Copy</button>
+          </div>
+
+          <p class="tiny">
+            Tip: If your bank supports <strong>PayID</strong>, you can use the email above instead of BSB/Account.
+          </p>
+        </div>
+
+        <!-- Card / Stripe -->
+        <div id="card-box" class="card-box" hidden>
+          <p class="bank-note">
+            Card payments use Stripe. Typical fee in AU is ~1.75% + 30¢.
+          </p>
+          <a class="btn btn-blue" id="stripe-btn"
+   href="https://buy.stripe.com/00wbJ3dj244Kgnwedl3AY00"
+   target="_blank" rel="noopener">
+  Pay securely with card
+</a>
+
+        </div>
+
+        <div class="split-note2">
+         <span style="color:var(--blue); font-weight:700;">If you require an invoice for your driveway clean.  Put your full name in the contribution reference and email us at happy@johnnybehappy.com.au.</span>
+        </div>
+      </div>
+
+      <!-- Right: other ways -->
+      <div class="support-card">
+        <h3>Other ways to help</h3>
+        <ul class="support-list">
+          <li>Subscribe, like and share on YouTube</li>
+          <li>Tell a friend or local group about Johnny Be Happy</li>
+          <li>Invite a men’s health program to our community</li>
+ <li>Come and physically help! Get in touch to discuss</li>
+         
+        </ul>
+        <a href="https://www.youtube.com/@JohnnyBeHappyPW?sub_confirmation=1" target="_blank" rel="noopener" class="btn btn-primary">
+        Subscribe to YouTube Channel
+
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== STAND TALL FUND (embedded) ===================== -->
+<section class="section" id="standtall">
+  <div class="section-inner">
+    <h2>Stand Tall Fund</h2>
+    <p class="lead" style="max-width:70ch;margin:0 auto 12px;">
+      Helping men in our community find purpose and stand tall.
+    </p>
+    <p style="max-width:70ch;margin:0 auto;">
+      Every clean, every subscriber, and every contribution helps grow the Stand Tall Fund — a way for Johnny Be Happy to give back. Born from my own mental health journey, it focuses on men’s wellbeing: creating awareness, opening doors to support, and bringing proven programs into our community.
+    </p>
+
+    <!-- Optional logo / image -->
+    <div class="ph-card" style="margin:18px auto 0; max-width:900px;">
+      <img src="standtall.png" alt="Stand Tall Fund" style="width:100%;height:auto;display:block;">
+    </div>
+
+    <!-- 3 focus areas -->
+    <div class="feature-grid" style="margin-top:22px;">
+      <article class="feature">
+        <div class="feature-head">
+          <span class="feature-ico" aria-hidden="true">
+            <!-- Programs icon -->
+            <svg viewBox="0 0 48 48" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="24" cy="24" r="22" fill="#5BC0EB" opacity=".15"/>
+              <path d="M31 22a7 7 0 10-14 0c0 2.4 1.1 4 2.2 5v3.2c0 .9.7 1.6 1.6 1.6h6.4c.9 0 1.6-.7 1.6-1.6V27c1.1-1 2.2-2.6 2.2-5z" fill="#FF6600"/>
+            </svg>
+          </span>
+          <h3>Programs</h3>
+        </div>
+        <p>Speakers, workshops, and practical tools that build skills and purpose.</p>
+      </article>
+
+      <article class="feature">
+        <div class="feature-head">
+          <span class="feature-ico" aria-hidden="true">
+            <!-- Megaphone -->
+            <svg viewBox="0 0 48 48" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="24" cy="24" r="22" fill="#5BC0EB" opacity=".15"/>
+              <path d="M12 24l16-6v12l-16-6z" fill="#1F2A44"/>
+              <rect x="28" y="20" width="3" height="8" rx="1.5" fill="#FF6600"/>
+            </svg>
+          </span>
+          <h3>Awareness</h3>
+        </div>
+        <p>Outreach that encourages conversation and early help-seeking.</p>
+      </article>
+
+      <article class="feature">
+        <div class="feature-head">
+          <span class="feature-ico" aria-hidden="true">
+            <!-- Network -->
+            <svg viewBox="0 0 48 48" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="24" cy="24" r="22" fill="#1F2A44" opacity=".12"/>
+              <g fill="none" stroke="#1F2A44" stroke-width="2" opacity=".6">
+                <circle cx="16" cy="18" r="5"/><circle cx="32" cy="14" r="4"/>
+                <circle cx="30" cy="30" r="5"/><circle cx="20" cy="34" r="4"/>
+                <line x1="20" y1="34" x2="30" y2="30"/><line x1="16" y1="18" x2="32" y2="14"/>
+                <line x1="16" y1="18" x2="30" y2="30"/>
+              </g>
+            </svg>
+          </span>
+          <h3>Community</h3>
+        </div>
+        <p>Local partnerships that create purpose, mentorship, and practical support.</p>
+      </article>
+    </div>
+
+    <!-- Optional: Youth pathways note -->
+    <p class="tiny" style="margin-top:12px;color:#64748b;font-weight:700;">
+      Where it makes sense, the fund also seeds youth-focused pathways.
+    </p>
+  </div>
+</section>
+
+
+<!-- ===================== VIDEOS ===================== -->
+<section class="section" id="videos" aria-labelledby="videos-title">
+  <div class="section-inner">
+    <h2 id="videos-title">Videos</h2>
+    <p>Watch recent cleans and stories. Enjoy them here, and subscribe on YouTube to support the mission.</p>
+
+    <!-- Responsive video grid -->
+    <div class="video-grid">
+      <!-- Video 1 -->
+      <div class="video">
+        <iframe
+          src="https://www.youtube.com/embed/VIDEO_ID_1"
+          title="Johnny Be Happy – Clean 1"
+          loading="lazy"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen></iframe>
+      </div>
+
+      <!-- Video 2 -->
+      <div class="video">
+        <iframe
+          src="https://www.youtube.com/embed/VIDEO_ID_2"
+          title="Johnny Be Happy – Clean 2"
+          loading="lazy"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen></iframe>
+      </div>
+
+      <!-- Video 3 -->
+      <div class="video">
+        <iframe
+          src="https://www.youtube.com/embed/VIDEO_ID_3"
+          title="Johnny Be Happy – Clean 3"
+          loading="lazy"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen></iframe>
+      </div>
+    </div>
+
+    <div class="section-cta">
+      <!-- Direct to channel -->
+     
+      <!-- Auto-open subscribe prompt -->
+      <a href="https://www.youtube.com/@JohnnyBeHappyPW" target="_blank" rel="noopener" class="btn btn-primary">
+        Watch on YouTube
+      </a>
+    </div>
+  </div>
+</section>
+
+    
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ===================== ABOUT ME ===================== -->
+<section class="section" id="about">
+  <div class="section-inner about-grid">
+    
+    <!-- Section heading -->
+    <h2 class="section-heading">My Story</h2>
+
+    <!-- Left: images -->
+    <div class="about-photos">
+      <div class="photo-card">
+        <img src="linkedin.png" alt="The Business Man">
+        <p>The Business Man</p>
+      </div>
+      <div class="photo-card">
+        <img src="thedad.png" alt="The Dad">
+        <p>The Dad</p>
+      </div>
+      <div class="photo-card">
+        <img src="musician.png" alt="The Musician">
+        <p>The Musician</p>
+      </div>
+      <div class="photo-card">
+        <img src="husband.png" alt="The Husband">
+        <p>The Husband</p>
+      </div>
+      <div class="photo-card">
+        <img src="herbert.png" alt="The Herbert Tinkle">
+        <p>The Herbert Tinkle</p>
+      </div>
+      <div class="photo-card">
+        <img src="coach.png" alt="The Coach">
+        <p>The Coach</p>
+      </div>
+      <div class="photo-card">
+        <img src="f1.png" alt="The F1 Fan">
+        <p>The F1 Fan</p>
+      </div>
+      <div class="photo-card">
+        <img src="pw.png" alt="The Pressure Washer">
+        <p>The Pressure Washer</p>
+      </div>
+    </div>
+
+    <!-- Right: text -->
+    <div class="about-text">
+      <p>
+        I’m Chris, the many faces behind <strong>Johnny Be Happy</strong>. 
+        After more than 20 years running a small business with all its stresses,
+        I found that pressure washing became my reset. It gave me calm in a noisy and unpredictable world.  
+      </p>
+      <p>
+        Born from my own mental health journey, this project is about more than clean driveways.
+        It’s about creating hope, building awareness, and turning small acts into bigger change
+        for men in our community. Through every clean and every story shared, I’m working to
+        bring programs and support where they’re needed most.
+      </p>
+      <p>
+        With two young men of my own approaching adulthood, I feel a responsibility to put my energy into something that carries real purpose — something that makes the world a better place for them and for others.  
+      </p>
+      <p>
+        Thanks for being part of the journey.
+      </p>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
+<footer class="site-footer" role="contentinfo">
+  <div class="footer-wrap">
+    <!-- Column 1: About / Nav -->
+    <div>
+      <h3 class="footer-heading">Johnny Be Happy</h3>
+      <ul class="footer-nav">
+        <li><a href="#mission">Mission</a></li>
+        <li><a href="#why">Why Pressure Washing</a></li>
+        <li><a href="#support">See how you can help</a></li>
+<li><a href="#standtall">Stand Tall Fund</a></li>
+        <li><a href="#videos">Videos</a></li>
+        
+      </ul>
+      <a class="footer-cta" href="#support">Fuel the next clean</a>
+    </div>
+
+    <!-- Column 2: Get help (you can edit these links later) -->
+    <div>
+      <h3 class="footer-heading">Need support now?</h3>
+      <ul class="footer-help">
+        <li><a href="https://www.beyondblue.org.au/" target="_blank" rel="noopener">Beyond Blue</a></li>
+        <li><a href="https://www.topblokes.org.au/" target="_blank" rel="noopener">Top Blokes Foundation</a></li>
+        <li><a href="https://www.aaic.org.au/" target="_blank" rel="noopener">Aunties & Uncles / Mentoring</a></li>
+        <li><a href="https://www.lifeline.org.au/" target="_blank" rel="noopener">Lifeline</a></li>
+      </ul>
+      <p class="footer-note">If you’re in immediate danger, call 000.</p>
+    </div>
+
+<!-- Column 3: Connect -->
+<div>
+  <h3 class="footer-heading">Let’s connect</h3>
+  <div class="socials" aria-label="Social links">
+    <a href="https://www.youtube.com/@JohnnyBeHappyPW" target="_blank" aria-label="YouTube">
+      <!-- YT icon -->
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M23.5 6.2a4 4 0 0 0-2.8-2.8C18.7 3 12 3 12 3s-6.7 0-8.7.4A4 4 0 0 0 .5 6.2 41.4 41.4 0 0 0 0 12a41.4 41.4 0 0 0 .5 5.8 4 4 0 0 0 2.8 2.8C5.3 21 12 21 12 21s6.7 0 8.7-.4a4 4 0 0 0 2.8-2.8A41.4 41.4 0 0 0 24 12a41.4 41.4 0 0 0-.5-5.8zM9.7 15.5v-7l6.2 3.5-6.2 3.5z"/>
+      </svg>
+    </a>
+    <a href="https://instagram.com/YOUR-INSTAGRAM" target="_blank" aria-label="Instagram">
+      <!-- IG icon -->
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm10 2H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3zm-5 3.5A5.5 5.5 0 1 1 6.5 13 5.5 5.5 0 0 1 12 7.5zm0 2A3.5 3.5 0 1 0 15.5 13 3.5 3.5 0 0 0 12 9.5zm5.8-2.8a1.2 1.2 0 1 1-1.2 1.2 1.2 1.2 0 0 1 1.2-1.2z"/>
+      </svg>
+    </a>
+    <a href="mailto:hello@johnnybehappy.com.au" aria-label="Email">
+      <!-- mail icon -->
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M2 6a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2zm2 0 8 5 8-5H4zm16 12V9l-8 5-8-5v9h16z"/>
+      </svg>
+    </a>
+  </div>
+
+  <!-- Phone number -->
+  <p style="margin-top:10px;">
+    <a href="tel:0428853726" style="color:inherit; text-decoration:none;">
+      📞 0428 853 726
+    </a>
+  </p>
+</div>
+
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom strip: logos + legal -->
+
+
+
+
+
+  <div class="footer-bottom">
+<p class="footer-prelogos">
+  If you need help, here are some links to great organisations:
+</p>
+
+    <div class="footer-logos" aria-label="Recommended organisations">
+      <!-- Replace src paths with your logo files (white or color; we invert to white) -->
+      <a href="https://www.beyondblue.org.au/" target="_blank" rel="noopener">
+        <img src="beyondblue.png" alt="Beyond Blue">
+      </a>
+      <a href="https://www.topblokes.org.au/" target="_blank" rel="noopener">
+        <img src="topblokes.png" alt="Top Blokes Foundation">
+      </a>
+      <a href="https://headspace.org.au/" target="_blank" rel="noopener">
+        <img src="headspace.png" alt="Headspace">
+      </a>
+      <a href="https://www.lifeline.org.au/" target="_blank" rel="noopener">
+        <img src="lifeline.png" alt="Lifeline">
+      </a>
+    </div>
+    <div class="footer-legal">
+      © <span id="year"></span> Johnny Be Happy · <a href="#mission">Mission</a> · <a href="#support">Support</a>
+    </div>
+  </div>
+</footer>
+
+
+
+
+<script>
+(function(){
+  const prefersReduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const AUD = new Intl.NumberFormat('en-AU', { style:'currency', currency:'AUD', maximumFractionDigits:0 });
+
+  function setText(el, val, format){
+    el.textContent = (format === 'currency') ? AUD.format(val) : Number(val||0).toLocaleString();
+  }
+  function animateCount(el, target, format){
+    if (prefersReduced){ setText(el, target, format); return; }
+    const duration = 1200, start = performance.now(), startVal = 0;
+    (function step(now){
+      const t = Math.min(1, (now - start)/duration);
+      const p = 1 - Math.pow(1 - t, 3);
+      const val = Math.round(startVal + (target - startVal) * p);
+      setText(el, val, format);
+      if (t < 1) requestAnimationFrame(step);
+    })(start);
+  }
+  function runCounts(data){
+    const nums = document.querySelectorAll('.stat-number');
+    const map = {
+      0: { val: data?.driveways, format:'int' },
+      1: { val: data?.funded_aud, format:'currency' },
+      2: { val: data?.helped, format:'int' }
+    };
+    const dateEl = document.getElementById('impact-date');
+    if (dateEl){
+      const when = data?.updated ? new Date(data.updated) : new Date();
+      dateEl.textContent = when.toLocaleDateString('en-AU', { month:'short', year:'numeric' });
+    }
+    const io = new IntersectionObserver(entries=>{
+      entries.forEach(e=>{
+        if (!e.isIntersecting) return;
+        const i = [...nums].indexOf(e.target);
+        const format = map[i]?.format || e.target.dataset.format || 'int';
+        const target = Number(map[i]?.val ?? e.target.dataset.target ?? 0);
+        animateCount(e.target, target, format);
+        io.unobserve(e.target);
+      });
+    }, { threshold:.35 });
+    nums.forEach(n=>io.observe(n));
+  }
+
+  // Build a URL relative to this page:
+  const relUrl = new URL('impact.json?v=' + Date.now(), location.href);
+  const rootUrl = new URL('/impact.json?v=' + Date.now(), location.origin);
+
+  fetch(relUrl, { cache:'no-store' })
+    .then(r => {
+      if (!r.ok) throw new Error('Rel path fetch failed: ' + r.status);
+      return r.json();
+    })
+    .then(data => {
+      console.info('[JBH] Loaded impact.json (relative).', data);
+      runCounts(data);
+    })
+    .catch(err => {
+      console.warn('[JBH] Relative impact.json not found.', err);
+      // Try site root as a fallback
+      fetch(rootUrl, { cache:'no-store' })
+        .then(r => {
+          if (!r.ok) throw new Error('Root fetch failed: ' + r.status);
+          return r.json();
+        })
+        .then(data => {
+          console.info('[JBH] Loaded impact.json (root).', data);
+          runCounts(data);
+        })
+        .catch(err2 => {
+          console.error('[JBH] Could not load impact.json. Falling back to HTML data-targets.', err2);
+          runCounts(null); // use whatever is in the HTML
+        });
+    });
+})();
+</script>
+
+<script>
+  (function(){
+    const amt = document.getElementById('support-amount');
+    const refCode = document.getElementById('ref-code');
+    const bankBox = document.getElementById('bank-box');
+    const cardBox = document.getElementById('card-box');
+    const stripeBtn = document.getElementById('stripe-btn');
+
+    // --- unique-per-visit code (session-scoped) ---
+    function makeRef(len = 6) {
+      // base36: 0-9a-z; cryptographically strong randomness
+      const bytes = new Uint8Array(len);
+      crypto.getRandomValues(bytes);
+      let s = '';
+      for (let b of bytes) s += (b % 36).toString(36);
+      return s.toUpperCase(); // e.g., A9Z3KD
+    }
+    function ensureRef() {
+      let code = sessionStorage.getItem('jbhRef');
+      if (!code) {
+        code = makeRef();
+        sessionStorage.setItem('jbhRef', code);
+      }
+      if (refCode) refCode.textContent = code;
+      // (optional) if you have a hidden input for form posts:
+      const hidden = document.getElementById('ref-hidden');
+      if (hidden) hidden.value = 'JBH-' + code;
+    }
+
+    // Call once on load so it’s ready for copy buttons, etc.
+    ensureRef();
+
+    // If you prefer to only lock it in once they start typing an amount,
+    // uncomment the listener below instead of calling ensureRef() on load:
+    // if (amt) { amt.addEventListener('input', ensureRef, { once: true }); }
+
+    // --- method toggle ---
+    document.querySelectorAll('input[name="method"]').forEach(r => {
+      r.addEventListener('change', e => {
+        const m = e.target.value;
+        if (bankBox) bankBox.hidden = (m !== 'bank');
+        if (cardBox) cardBox.hidden = (m !== 'card');
+      });
+    });
+
+    // --- Stripe link (leave as-is if your link ignores amount) ---
+    function updateStripeLink(){
+      const base = 'https://buy.stripe.com/00wbJ3dj244Kgnwedl3AY00';
+      // If your Payment Link supports dynamic amounts via query, update here.
+      if (stripeBtn) stripeBtn.href = base;
+    }
+    updateStripeLink();
+    if (amt) amt.addEventListener('input', updateStripeLink);
+
+    // --- Copy buttons (works with JBH- + ref shown on page) ---
+    document.querySelectorAll('.copy').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const key = btn.getAttribute('data-copy-target');
+        let val = '';
+        if (key === 'Reference'){
+          const el = document.getElementById('ref-val');
+          if (el) val = el.innerText.trim();
+        } else {
+          const el = document.querySelector(`.bank-val[data-copy="${key}"]`);
+          if (el) val = el.innerText.trim();
+        }
+        if (!val) return;
+        navigator.clipboard.writeText(val).then(()=>{
+          btn.textContent = 'Copied';
+          setTimeout(()=>{ btn.textContent = 'Copy'; }, 1200);
+        });
+      });
+    });
+  })();
+</script>
+
+
+<script>
+const sections = document.querySelectorAll("section");
+const navLinks = document.querySelectorAll(".nav a");
+
+window.addEventListener("scroll", () => {
+  let current = "";
+  sections.forEach(section => {
+    const sectionTop = section.offsetTop - 120; // adjust for sticky header
+    if (pageYOffset >= sectionTop) {
+      current = section.getAttribute("id");
+    }
+  });
+
+  navLinks.forEach(link => {
+    link.classList.remove("active");
+    if (link.getAttribute("href") === "#" + current) {
+      link.classList.add("active");
+    }
+  });
+});
+</script>
+
+
+</body>
+</html>
